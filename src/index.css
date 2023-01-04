@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="datetime-local"]:focus,
+[type="month"]:focus,
+[type="search"]:focus,
+[type="tel"]:focus,
+[type="time"]:focus,
+[type="week"]:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+  box-shadow: none;
+}
+/* width */
+.cs-chat ::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 30px;
+}
+
+/* Track */
+.cs-chat ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.cs-chat ::-webkit-scrollbar-thumb {
+  background: rgb(37,99,235);
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.cs-chat ::-webkit-scrollbar-thumb:hover {
+  background: rgb(37,99,235);
+}
