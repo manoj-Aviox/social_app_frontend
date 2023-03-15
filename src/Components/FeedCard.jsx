@@ -9,7 +9,7 @@ const FeedCard = ({ data, alluser }) => {
 
   return alluser.map((item) => {
     return (
-      item._id === data.userId && (
+      item._id === data.user_id && (
         <div className="rounded-sm bg-white mb-10 shadow-md">
           {/* Top */}
           <div
@@ -18,7 +18,7 @@ const FeedCard = ({ data, alluser }) => {
           >
             <div className="w-10 h-10  shadow-sm rounded-full">
               <img
-                src={`${process.env.REACT_APP_IMAGES_BASE_URL}${item.profilePicture}`}
+                src={item.profilePicture}
                 alt={item.name}
                 className="rounded-full w-full h-full  object-cover object-top"
               />
@@ -31,18 +31,14 @@ const FeedCard = ({ data, alluser }) => {
 
           {/* Image */}
           <figure>
-            <img
-              src={`${process.env.REACT_APP_IMAGES_BASE_URL}${data?.img}`}
-              alt={data.title}
-              className="w-full"
-            />
+            <img src={data?.img} alt={data.title} className="w-full" />
           </figure>
           {/* Content */}
           <div className="p-3 text-sm">
             <div className="flex gap-10 mb-0">
               <div className="flex gap-2 items-center">
                 <div
-                  onClick={() => dispatch(LikeFeed(data._id))}
+                  onClick={() => dispatch(LikeFeed(data._id,item._id))}
                   className="text-xl cursor-pointer"
                 >
                   <AiOutlineLike />

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../../config";
 import {
   BASEURL,
   GET_CHAT,
@@ -13,10 +14,10 @@ import {
 // ---------------------- GET USER'S PROFILE --------------------------
 export const GetCHAT = (id) => (dispatch) => {
   dispatch({ type: GET_CHAT });
-  axios
+  API
     .get(`${BASEURL}chats/${id}`, {
       headers: {
-        Authorization: localStorage.getItem("social_app"),
+        token: localStorage.getItem("social_app"),
       },
     })
     .then((response) => {
@@ -30,10 +31,10 @@ export const GetCHAT = (id) => (dispatch) => {
 // --------------------- sendCHATs -------------------------
 export const SendCHAT = (formData, callBack) => (dispatch) => {
   dispatch({ type: CHAT_SEND });
-  axios
+  API
     .post(`${BASEURL}chats`, formData, {
       headers: {
-        Authorization: localStorage.getItem("social_app"),
+        token: localStorage.getItem("social_app"),
       },
     })
     .then((response) => {

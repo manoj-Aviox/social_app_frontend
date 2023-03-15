@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { CoverPicture,  UpdateProfile } from "../Redux/Actions/UserAction";
+import { CoverPicture, UpdateProfile } from "../Redux/Actions/UserAction";
 import { Dialog, Transition } from "@headlessui/react";
 import HOC from "../Layouts/HOC";
 import { FiEdit } from "react-icons/fi";
@@ -12,11 +12,12 @@ const Profile = () => {
   const dispatch = useDispatch();
   const profileData = useSelector((item) => item.UserReducer.profile);
   const feedData = useSelector((item) => item.FeedReducer.ownFeed);
+  console.log(feedData);
 
   const [formValues, setFormValues] = useState({
-    name: profileData.name,
-    username: profileData.username,
-    phone: profileData.phone,
+    name: profileData?.name,
+    username: profileData?.username,
+    phone: profileData?.phone,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [isShow, setIsShow] = useState(false);
@@ -67,18 +68,22 @@ const Profile = () => {
     fd.append("desc", feedPost.desc);
     fd.append("file", feedPost.image);
     dispatch(
-      AddFeed(fd, () => {
-        setFeedPost({});
-        setIsShow(false);
-      })
+      AddFeed(
+        fd,
+        () => {
+          setFeedPost({});
+          setIsShow(false);
+        },
+        profileData._id
+      )
     );
     event.target.reset();
   };
   useEffect(() => {
-    dispatch(GetOwnFeeds());
-  }, [dispatch]);
-
- 
+    if (profileData._id) {
+      dispatch(GetOwnFeeds(profileData._id));
+    }
+  }, [dispatch, profileData._id]);
 
   return (
     <main className="profile-page">
@@ -87,8 +92,7 @@ const Profile = () => {
         <div
           className="absolute top-0 w-full h-full bg-center bg-cover"
           style={{
-            backgroundImage:
-              `url("${process.env.REACT_APP_IMAGES_BASE_URL}${profileData.coverPicture}")`,
+            backgroundImage: `url("${profileData?.coverPicture}")`,
           }}
         >
           <span
@@ -118,7 +122,7 @@ const Profile = () => {
                     <div className="shadow-xl flex justify-center bg-white items-center rounded-full md:h-40 h-36 w-36 md:w-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 ">
                       {profileData?.profilePicture ? (
                         <img
-                          src={`${process.env.REACT_APP_IMAGES_BASE_URL}${profileData?.profilePicture}`}
+                          src={profileData?.profilePicture}
                           alt={profileData?.name}
                           className="w-full h-full object-top object-cover rounded-full"
                         />
@@ -160,7 +164,7 @@ const Profile = () => {
                     </div>
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        {feedData.length}
+                        {feedData?.length}
                       </span>
                       <span className="text-sm text-blueGray-400">Posts</span>
                     </div>
@@ -186,25 +190,23 @@ const Profile = () => {
                 <div className="border-t  pt-4">
                   <h3 className="font-bold  mb-5 uppercase">Gallery</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {feedData.length === 0 && (
+                    {feedData?.length === 0 && (
                       <span className="text-sm text-slate-600">
                         No Posts here
                       </span>
                     )}
                     {feedData?.map((item) => {
                       return (
-                        item.userId === profileData._id && (
+                        item.user_id === profileData._id && (
                           <>
                             <div class="sm:col-span-2 shadow md:col-span-1 block group relative transition ease-out active:opacity-75 overflow-hidden">
                               <img
-                                src={`${process.env.REACT_APP_IMAGES_BASE_URL}${item?.img}`}
+                                src={item?.img}
                                 alt={item?.title}
                                 class="transform object-cover h-full w-full transition ease-out group-hover:scale-110"
                               />
-                              <div class="absolute bottom-0 inset-0 bg-black bg-opacity-25 transition ease-out group-hover:bg-opacity-0">
-                               
-                              </div>
-                              <BsThreeDotsVertical  className="absolute top-2 right-2  text-white text-xl cursor-pointer" />
+                              <div class="absolute bottom-0 inset-0 bg-black bg-opacity-25 transition ease-out group-hover:bg-opacity-0"></div>
+                              <BsThreeDotsVertical className="absolute top-2 right-2  text-white text-xl cursor-pointer" />
                               <div class="p-2 flex items-center justify-center absolute bottom-0 left-0">
                                 <div class="py-1.5 px-3 bg-white bg-opacity-95 rounded-3xl text-xs font-semibold uppercase tracking-wide transition ease-out group-hover:text-white group-hover:bg-blue-600">
                                   {item?.title}
@@ -268,7 +270,7 @@ const Profile = () => {
                     as="h3"
                     className="text-lg pb-1.5 mb-4 font-medium leading-6 text-gray-900"
                   >
-                    Update {cover?"Cover":"Profile"} Photo
+                    Update {cover ? "Cover" : "Profile"} Photo
                   </Dialog.Title>
                   <form onSubmit={handleSubmit}>
                     {/* <div className="space-y-1 mb-3">

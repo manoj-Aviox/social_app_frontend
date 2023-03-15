@@ -65,7 +65,7 @@ const Navbar = () => {
           <div className="w-10 h-10">
             {profileData?.profilePicture ? (
               <img
-                src={`${process.env.REACT_APP_IMAGES_BASE_URL}${profileData?.profilePicture}`}
+                src={profileData?.profilePicture}
                 alt={profileData?.name}
                 className="w-10 h-10 object-top object-cover shadow-md rounded-full"
               />

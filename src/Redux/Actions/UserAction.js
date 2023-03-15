@@ -27,18 +27,18 @@ import {
 } from "./ActionTypes";
 import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../../config";
 
 // ---------------------- GET ALL USERS --------------------------
 export const GetAllUsers = () => (dispatch) => {
   dispatch({ type: GET_USERS });
-  axios
-    .get(`${BASEURL}users`, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.get(`${BASEURL}users`, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
-      dispatch({ type: GET_USERS_SUCCESS, payload: response.data.data });
+      dispatch({ type: GET_USERS_SUCCESS, payload: response.data.all_users });
     })
     .catch((error) => {
       dispatch({ type: GET_USERS_FAILURE });
@@ -48,14 +48,16 @@ export const GetAllUsers = () => (dispatch) => {
 // ---------------------- GET USER'S PROFILE --------------------------
 export const GetProfile = () => (dispatch) => {
   dispatch({ type: GET_USER_PROFILE });
-  axios
-    .get(`${BASEURL}users/me`, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.get(`${BASEURL}users/me`, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
-      dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: response.data.data });
+      dispatch({
+        type: GET_USER_PROFILE_SUCCESS,
+        payload: response.data.profile,
+      });
     })
     .catch((error) => {
       dispatch({ type: GET_USER_PROFILE_FAILURE });
@@ -65,12 +67,11 @@ export const GetProfile = () => (dispatch) => {
 // ---------------------- UPDATE USER'S PROFILE --------------------------
 export const UpdateProfile = (formData, callBack) => (dispatch) => {
   dispatch({ type: UPDATE_USER_PROFILE });
-  axios
-    .put(`${BASEURL}users/profile_picture`, formData, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.put(`${BASEURL}users/profile_picture`, formData, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
       dispatch(GetProfile());
       toast(response.data.message);
@@ -88,12 +89,11 @@ export const UpdateProfile = (formData, callBack) => (dispatch) => {
 // ---------------------- UPDATE USER'S PROFILE --------------------------
 export const CoverPicture = (formData, callBack) => (dispatch) => {
   dispatch({ type: UPDATE_COVER_PICTURE });
-  axios
-    .put(`${BASEURL}users/cover_picture`, formData, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.put(`${BASEURL}users/cover_picture`, formData, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
       dispatch(GetProfile());
       toast(response.data.message);
@@ -111,16 +111,15 @@ export const CoverPicture = (formData, callBack) => (dispatch) => {
 // ---------------------- SEND FRIENDS REQUEST --------------------------
 export const SendFriendsRequest = (id) => (dispatch) => {
   dispatch({ type: SEND_FRIENDS_REQUEST });
-  axios
-    .put(
-      `${BASEURL}users/send_request/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("social_app"),
-        },
-      }
-    )
+  API.put(
+    `${BASEURL}users/send_request/${id}`,
+    {},
+    {
+      headers: {
+        token: localStorage.getItem("social_app"),
+      },
+    }
+  )
     .then((response) => {
       dispatch(GetAllUsers());
       dispatch({
@@ -136,16 +135,15 @@ export const SendFriendsRequest = (id) => (dispatch) => {
 // ---------------------- CANCEL FRIENDS REQUEST --------------------------
 export const CancelFriendsRequest = (id) => (dispatch) => {
   dispatch({ type: CANCEL_FRIENDS_REQUEST });
-  axios
-    .put(
-      `${BASEURL}users/cancel_request/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("social_app"),
-        },
-      }
-    )
+  API.put(
+    `${BASEURL}users/cancel_request/${id}`,
+    {},
+    {
+      headers: {
+        token: localStorage.getItem("social_app"),
+      },
+    }
+  )
     .then((response) => {
       dispatch(GetAllUsers());
       dispatch({
@@ -162,16 +160,15 @@ export const CancelFriendsRequest = (id) => (dispatch) => {
 // ---------------------- ACCEPT FRIENDS REQUEST --------------------------
 export const AcceptFriendsRequest = (id) => (dispatch) => {
   dispatch({ type: ACCEPT_FRIENDS_REQUEST });
-  axios
-    .put(
-      `${BASEURL}users/accept_request/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("social_app"),
-        },
-      }
-    )
+  API.put(
+    `${BASEURL}users/accept_request/${id}`,
+    {},
+    {
+      headers: {
+        token: localStorage.getItem("social_app"),
+      },
+    }
+  )
     .then((response) => {
       dispatch(GetAllUsers());
       dispatch({
@@ -187,16 +184,15 @@ export const AcceptFriendsRequest = (id) => (dispatch) => {
 // ---------------------- REJECT FRIENDS REQUEST --------------------------
 export const RejectFriendsRequest = (id) => (dispatch) => {
   dispatch({ type: REJECT_FRIENDS_REQUEST });
-  axios
-    .put(
-      `${BASEURL}users/reject_request/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("social_app"),
-        },
-      }
-    )
+  API.put(
+    `${BASEURL}users/reject_request/${id}`,
+    {},
+    {
+      headers: {
+        token: localStorage.getItem("social_app"),
+      },
+    }
+  )
     .then((response) => {
       dispatch(GetAllUsers());
       dispatch({

@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import axios from "axios";
 import {
   GET_FEEDS,
   GET_FEEDS_SUCCESS,
@@ -15,21 +14,21 @@ import {
   LIKE_FEED,
   LIKE_FEED_FAILURE,
 } from "./ActionTypes";
+import API from "../../config";
 
 // ---------------------- GTE FEEDS  --------------------------
 export const GetFeeds = () => (dispatch) => {
   dispatch({ type: GET_FEEDS });
-  axios
-    .get(`${BASEURL}posts`, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.get(`${BASEURL}posts`, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
       if (response.status === 200) {
         dispatch({
           type: GET_FEEDS_SUCCESS,
-          payload: response.data.data,
+          payload: response.data.posts,
         });
       }
     })
@@ -39,19 +38,18 @@ export const GetFeeds = () => (dispatch) => {
 };
 
 // ---------------------- GTE FEEDS  --------------------------
-export const GetOwnFeeds = () => (dispatch) => {
+export const GetOwnFeeds = (id) => (dispatch) => {
   dispatch({ type: GET_OWN_FEEDS });
-  axios
-    .get(`${BASEURL}posts/myPosts`, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.get(`${BASEURL}posts/${id}`, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
       if (response.status === 200) {
         dispatch({
           type: GET_OWN_FEEDS_SUCCESS,
-          payload: response.data.data,
+          payload: response.data.posts,
         });
       }
     })
@@ -60,16 +58,15 @@ export const GetOwnFeeds = () => (dispatch) => {
     });
 };
 // ----------------------  ADD FEEDS --------------------------
-export const AddFeed = (formData, callBack) => (dispatch) => {
+export const AddFeed = (formData, callBack, id) => (dispatch) => {
   dispatch({ type: ADD_FEEDS });
-  axios
-    .post(`${BASEURL}posts`, formData, {
-      headers: {
-        Authorization: localStorage.getItem("social_app"),
-      },
-    })
+  API.post(`${BASEURL}posts`, formData, {
+    headers: {
+      token: localStorage.getItem("social_app"),
+    },
+  })
     .then((response) => {
-      dispatch(GetOwnFeeds());
+      dispatch(GetOwnFeeds(id));
       toast(response.data.message);
       dispatch({
         type: ADD_FEEDS_SUCCESS,
@@ -83,18 +80,17 @@ export const AddFeed = (formData, callBack) => (dispatch) => {
 };
 
 // ----------------------  ADD FEEDS --------------------------
-export const LikeFeed = (id) => (dispatch) => {
+export const LikeFeed = (id,user_id) => (dispatch) => {
   dispatch({ type: LIKE_FEED });
-  axios
-    .put(
-      `${BASEURL}posts/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: localStorage.getItem("social_app"),
-        },
-      }
-    )
+  API.put(
+    `${BASEURL}posts/like_dislike/${id}`,
+    {user_id},
+    {
+      headers: {
+        token: localStorage.getItem("social_app"),
+      },
+    }
+  )
     .then((response) => {
       dispatch(GetFeeds());
       toast(response.data.message);

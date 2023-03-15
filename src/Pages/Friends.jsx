@@ -118,7 +118,7 @@ const Friends = () => {
                           <span className=" rounded-full  flex justify-center items-center  relative  p-0.5 ">
                             {items?.profilePicture ? (
                               <img
-                                src={`${process.env.REACT_APP_IMAGES_BASE_URL}${items?.profilePicture}`}
+                                src={items?.profilePicture}
                                 alt={items?.name}
                                 className="w-11 h-11 object-cover object-top rounded-full"
                               />
@@ -178,7 +178,7 @@ const Friends = () => {
                         <span className="inline-block rounded-full   ">
                           {item?.profilePicture ? (
                             <img
-                              src={`${process.env.REACT_APP_IMAGES_BASE_URL}${item?.profilePicture}`}
+                              src={item?.profilePicture}
                               alt={item?.name}
                               className="w-9 h-9 object-cover object-top rounded-full"
                             />

@@ -71,21 +71,21 @@ const Signup = () => {
                       </div>
                       <div className="space-y-1">
                         <label
-                          htmlFor="username"
-                          name="username"
+                          htmlFor="phone"
+                          name="phone"
                           className="font-medium"
                         >
-                          User Name
+                          Phone
                         </label>
                         <input
                           className={form_input}
                           type="text"
-                          id="username"
+                          id="phone"
                           required
-                          name="username"
-                          value={formValues?.username}
+                          name="phone"
+                          value={formValues?.phone}
                           onChange={handleChange}
-                          placeholder="Enter your username"
+                          placeholder="Enter your phone"
                         />
                       </div>
                      

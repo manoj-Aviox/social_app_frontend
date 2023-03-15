@@ -90,7 +90,7 @@ const UserCard = ({ data }) => {
         {data.profilePicture ? (
           // eslint-disable-next-line jsx-a11y/alt-text
           <img
-            src={`${process.env.REACT_APP_IMAGES_BASE_URL}${data?.profilePicture}`}
+            src={data?.profilePicture}
             className="w-10 h-10 rounded-full object-cover object-top"
           />
         ) : (

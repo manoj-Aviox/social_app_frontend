@@ -1,4 +1,3 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 import {
   BASEURL,
@@ -9,12 +8,12 @@ import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
 } from "./ActionTypes";
+import API from "../../config";
 
 // ---------------------- LOG IN --------------------------
 export const LoginAccount = (formData, callBack) => (dispatch) => {
   dispatch({ type: LOGIN });
-  axios
-    .post(`${BASEURL}auth/login`, formData)
+  API.post(`${BASEURL}auth/login`, formData)
     .then((response) => {
       dispatch({ type: LOGIN_SUCCESS });
       if (response.status === 200) {
@@ -34,8 +33,7 @@ export const LoginAccount = (formData, callBack) => (dispatch) => {
 // ---------------------- CREATE ACCOUNT --------------------------
 export const CreateAccount = (formData, callBack) => (dispatch) => {
   dispatch({ type: SIGNUP });
-  axios
-    .post(`${BASEURL}auth/signup`, formData)
+  API.post(`${BASEURL}auth/signup`, formData)
     .then((response) => {
       dispatch({ type: SIGNUP_SUCCESS });
       if (response.status === 201) {
